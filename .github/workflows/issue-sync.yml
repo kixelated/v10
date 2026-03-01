@@ -5,6 +5,7 @@ on:
     types: [closed]
 
 permissions:
+  actions: read
   contents: read
   pull-requests: read
   issues: write
@@ -29,9 +30,11 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           claude_args: |
             --model sonnet
             --max-turns 12
+            --allowedTools "Bash(gh:*)" "WebSearch" "WebFetch"
           prompt: |
             A pull request was merged and you are the issue follow-up agent.
 
@@ -40,6 +43,8 @@ jobs:
             - Title: ${{ github.event.pull_request.title }}
             - URL: ${{ github.event.pull_request.html_url }}
             - Merged by: ${{ github.event.pull_request.merged_by.login }}
+            - Body:
+              ${{ github.event.pull_request.body }}
 
             Tasks:
             1. Identify issues this PR references or could reasonably affect.
