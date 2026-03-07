@@ -170,6 +170,9 @@ importers:
 
   packages/core:
     dependencies:
+      '@moq/watch':
+        specifier: ^0.2.2
+        version: 0.2.2(@svta/cml-utils@1.4.0)(@types/react@19.2.7)(react@19.2.3)(zod@4.3.6)
       '@videojs/store':
         specifier: workspace:*
         version: link:../store
